@@ -12,24 +12,24 @@ export async function generateMetadata(): Promise<Metadata> {
     requestHeaders.get("x-forwarded-proto") ??
     (host.includes("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
-  const title = "林屿 LIN YU — 设计师与创意开发者";
+  const title = "Christina Tang — Portfolio";
   const description =
-    "独立设计师与创意开发者林屿的作品集，专注数字产品、品牌体验与创意技术。";
+    "Multimedia creator working across branding, filmmaking and AI-generative storytelling.";
 
   return {
     title,
     description,
     openGraph: {
       type: "website",
-      locale: "zh_CN",
+      locale: "en_US",
       title,
       description,
       images: [
         {
-          url: `${origin}/og.png`,
+          url: `${origin}/og-christina.png`,
           width: 1536,
           height: 1024,
-          alt: "LIN YU Portfolio 2026",
+          alt: "Christina Tang Portfolio",
         },
       ],
     },
@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [`${origin}/og.png`],
+      images: [`${origin}/og-christina.png`],
     },
   };
 }
@@ -48,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );
