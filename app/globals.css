@@ -510,67 +510,194 @@ img {
   background: #e8e3dc;
 }
 
-.visual-grid {
+.visual-carousel {
+  margin-inline: calc(var(--page) * -1);
+}
+
+.visual-carousel-toolbar {
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 1.6vw, 1.5rem);
-  min-height: clamp(22rem, 45vw, 43rem);
-  padding: 3rem 0;
-  cursor: crosshair;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 var(--page) 1.15rem;
+  border-bottom: 1px solid var(--line);
 }
 
-.visual-grid figure {
+.visual-carousel-toolbar > p {
+  margin: 0;
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.visual-carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.visual-carousel-controls > span {
+  min-width: 4.6rem;
+  margin-right: 0.45rem;
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-align: right;
+}
+
+.visual-carousel-controls button {
+  width: 2.85rem;
+  height: 2.85rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(250, 248, 243, 0.32);
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    color 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.visual-carousel-controls button:hover:not(:disabled),
+.visual-carousel-controls button:focus-visible {
+  border-color: var(--ink);
+  color: var(--paper);
+  background: var(--ink);
+  transform: translateY(-0.15rem);
+}
+
+.visual-carousel-controls button:disabled {
+  opacity: 0.24;
+  cursor: default;
+}
+
+.visual-track {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: clamp(1.2rem, 2.4vw, 2.4rem);
+  min-height: clamp(39rem, 56vw, 52rem);
+  padding: clamp(4.5rem, 7vw, 7rem) var(--page);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-padding-inline: var(--page);
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-x pan-y;
+  user-select: none;
+}
+
+.visual-track::-webkit-scrollbar {
+  display: none;
+}
+
+.visual-track:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: -0.7rem;
+}
+
+.visual-track.is-dragging {
+  scroll-snap-type: none;
+  cursor: grabbing;
+}
+
+.visual-slide {
   position: relative;
   z-index: 1;
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 0 0 auto;
+  width: max-content;
   margin: 0;
+  scroll-snap-align: center;
   opacity: 1;
-  transform: translateY(0) scale(1);
   transform-origin: center;
   transition:
-    flex-grow 520ms cubic-bezier(0.2, 0.72, 0.2, 1),
-    opacity 320ms ease,
-    transform 520ms cubic-bezier(0.2, 0.72, 0.2, 1);
+    opacity 360ms ease,
+    transform 560ms cubic-bezier(0.2, 0.72, 0.2, 1);
 }
 
-.visual-grid img {
+.visual-media {
+  position: relative;
+  width: auto;
+  height: clamp(18rem, 29vw, 29rem);
+  aspect-ratio: var(--visual-ratio);
+  background: rgba(250, 248, 243, 0.3);
+  transition:
+    height 620ms cubic-bezier(0.2, 0.72, 0.2, 1),
+    box-shadow 420ms ease;
+}
+
+.visual-media img,
+.visual-media video {
   width: 100%;
-  height: auto;
+  height: 100%;
+  display: block;
   object-fit: contain;
   filter: saturate(0.72);
   transition:
     filter 420ms ease,
-    box-shadow 420ms ease;
+    opacity 420ms ease;
 }
 
-.visual-grid:hover figure {
-  flex-grow: 0.82;
-  opacity: 0.62;
-  transform: translateY(0.8rem) scale(0.985);
+.visual-media-type {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  padding: 0.38rem 0.52rem;
+  background: rgba(243, 240, 234, 0.76);
+  font-family: "Courier New", monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
 }
 
-.visual-grid figure:hover {
-  z-index: 3;
-  flex-grow: 1.5;
-  opacity: 1;
-  transform: translateY(-1.35rem) scale(1.015);
-}
-
-.visual-grid figure:hover img {
-  filter: saturate(1);
-  box-shadow: 0 1.8rem 4rem rgba(56, 52, 45, 0.14);
-}
-
-.visual-grid figcaption {
+.visual-slide figcaption {
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--line);
   font-family: "Courier New", monospace;
   font-size: 0.52rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+.visual-slide figcaption span:last-child {
+  color: var(--muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visual-track:not(.is-dragging):hover .visual-slide {
+    opacity: 0.42;
+    transform: translateY(0.65rem) scale(0.985);
+  }
+
+  .visual-track:not(.is-dragging) .visual-slide:hover {
+    z-index: 5;
+    opacity: 1;
+    transform: translateY(-1.1rem);
+  }
+
+  .visual-track:not(.is-dragging) .visual-slide:hover .visual-media {
+    height: clamp(26rem, 41vw, 40rem);
+    box-shadow: 0 2.2rem 5rem rgba(56, 52, 45, 0.2);
+  }
+
+  .visual-track:not(.is-dragging)
+    .visual-slide:hover
+    :is(.visual-media img, .visual-media video) {
+    filter: saturate(1);
+  }
 }
 
 .video-section {
@@ -1408,29 +1535,43 @@ img {
     grid-template-columns: 1fr;
   }
 
-  .visual-grid {
-    min-height: 0;
-    align-items: center;
-    gap: 0.8rem;
-    margin-right: calc(var(--page) * -1);
-    padding: 2rem var(--page) 2rem 0;
-    overflow-x: auto;
-    cursor: auto;
-    scrollbar-width: none;
-    scroll-snap-type: x mandatory;
+  .visual-carousel-toolbar {
+    align-items: flex-end;
   }
 
-  .visual-grid::-webkit-scrollbar {
+  .visual-carousel-toolbar > p {
+    max-width: 10rem;
+    line-height: 1.5;
+  }
+
+  .visual-carousel-controls > span {
     display: none;
   }
 
-  .visual-grid figure,
-  .visual-grid:hover figure,
-  .visual-grid figure:hover {
-    flex: 0 0 78vw;
-    opacity: 1;
-    transform: none;
-    scroll-snap-align: start;
+  .visual-carousel-controls button {
+    width: 2.65rem;
+    height: 2.65rem;
+  }
+
+  .visual-track {
+    gap: 1rem;
+    min-height: clamp(24rem, 94vw, 37rem);
+    padding-top: 3.2rem;
+    padding-bottom: 3.2rem;
+    scroll-snap-type: x mandatory;
+    cursor: auto;
+  }
+
+  .visual-slide.is-landscape .visual-media {
+    height: 44vw;
+  }
+
+  .visual-slide.is-portrait .visual-media {
+    height: 68vw;
+  }
+
+  .visual-slide figcaption {
+    font-size: 0.48rem;
   }
 
   .video-card + .video-card {

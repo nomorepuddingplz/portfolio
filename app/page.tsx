@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import { portfolioProjects } from "./projects/project-data";
 
 type Language = "zh" | "en";
@@ -109,10 +110,86 @@ const experience = [
   },
 ];
 
-const visualWorks = [
-  { src: "/works/visual-01.avif", number: "01" },
-  { src: "/works/visual-02.avif", number: "02" },
-  { src: "/works/visual-03.avif", number: "03" },
+type VisualWork = {
+  kind: "image" | "video";
+  src: string;
+  alt: string;
+  ratio: number;
+};
+
+const visualWorks: VisualWork[] = [
+  {
+    kind: "image",
+    src: "/works/visual-collection/kingfisher-closeup.avif",
+    alt: "Watercolor kingfisher eye in extreme close-up",
+    ratio: 1344 / 768,
+  },
+  {
+    kind: "video",
+    src: "/works/visual-collection/screen-recording-01.mov",
+    alt: "AI generative visual workflow screen recording one",
+    ratio: 16 / 9,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-collection/forest-angel.avif",
+    alt: "Watercolor angel child resting in a dark forest",
+    ratio: 1344 / 768,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-collection/children-with-kingfisher.avif",
+    alt: "Two children studying an origami kingfisher in cinematic sunlight",
+    ratio: 1344 / 768,
+  },
+  {
+    kind: "video",
+    src: "/works/visual-collection/screen-recording-02.mov",
+    alt: "AI generative visual workflow screen recording two",
+    ratio: 16 / 9,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-collection/painting-kingfisher.avif",
+    alt: "Overhead view of a child painting a kingfisher",
+    ratio: 1344 / 768,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-collection/girl-with-kingfisher.avif",
+    alt: "Watercolor girl meeting a giant kingfisher in a sunlit forest",
+    ratio: 1832 / 1046,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-collection/boy-closeup.avif",
+    alt: "Cinematic close-up portrait of a young boy",
+    ratio: 1456 / 816,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-collection/spindrift-set.avif",
+    alt: "Spindrift sparkling water can in a botanical set",
+    ratio: 736 / 1408,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-01.avif",
+    alt: "AI visual study from Christina Tang's collection",
+    ratio: 490 / 280,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-02.avif",
+    alt: "Cinematic visual study from Christina Tang's collection",
+    ratio: 490 / 280,
+  },
+  {
+    kind: "image",
+    src: "/works/visual-03.avif",
+    alt: "Generative image study from Christina Tang's collection",
+    ratio: 499 / 280,
+  },
 ];
 
 const videoWorks = [
@@ -135,6 +212,254 @@ const videoWorks = [
     type: "Visual Story",
   },
 ];
+
+function VisualCarousel({ lang }: { lang: Language }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef({
+    pointerId: -1,
+    startX: 0,
+    scrollLeft: 0,
+  });
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  const getSlides = () =>
+    Array.from(
+      trackRef.current?.querySelectorAll<HTMLElement>("[data-visual-slide]") ??
+        [],
+    );
+
+  const goToSlide = (index: number) => {
+    const track = trackRef.current;
+    const slides = getSlides();
+    if (!track || slides.length === 0) return;
+
+    const nextIndex = Math.max(0, Math.min(index, slides.length - 1));
+    const target = slides[nextIndex];
+    const left =
+      target.offsetLeft - (track.clientWidth - target.offsetWidth) / 2;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    track.scrollTo({
+      left,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+    setActiveIndex(nextIndex);
+  };
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncMotionPreference = () =>
+      setPrefersReducedMotion(motionQuery.matches);
+
+    syncMotionPreference();
+    motionQuery.addEventListener("change", syncMotionPreference);
+    return () =>
+      motionQuery.removeEventListener("change", syncMotionPreference);
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let frame = 0;
+    const syncActiveSlide = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const slides = getSlides();
+        if (slides.length === 0) return;
+
+        if (track.scrollLeft <= 4) {
+          setActiveIndex(0);
+          return;
+        }
+
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) {
+          setActiveIndex(slides.length - 1);
+          return;
+        }
+
+        const trackCenter = track.scrollLeft + track.clientWidth / 2;
+        let nearestIndex = 0;
+        let nearestDistance = Number.POSITIVE_INFINITY;
+
+        slides.forEach((slide, index) => {
+          const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+          const distance = Math.abs(slideCenter - trackCenter);
+          if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestIndex = index;
+          }
+        });
+
+        setActiveIndex(nearestIndex);
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(syncActiveSlide);
+    resizeObserver.observe(track);
+    track.addEventListener("scroll", syncActiveSlide, { passive: true });
+    syncActiveSlide();
+
+    return () => {
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      track.removeEventListener("scroll", syncActiveSlide);
+    };
+  }, []);
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      goToSlide(activeIndex - 1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      goToSlide(activeIndex + 1);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      goToSlide(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      goToSlide(visualWorks.length - 1);
+    }
+  };
+
+  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    const track = event.currentTarget;
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      scrollLeft: track.scrollLeft,
+    };
+    track.setPointerCapture(event.pointerId);
+    setIsDragging(true);
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (dragRef.current.pointerId !== event.pointerId) return;
+    event.preventDefault();
+    event.currentTarget.scrollLeft =
+      dragRef.current.scrollLeft -
+      (event.clientX - dragRef.current.startX);
+  };
+
+  const stopDragging = (event: PointerEvent<HTMLDivElement>) => {
+    if (dragRef.current.pointerId !== event.pointerId) return;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    dragRef.current.pointerId = -1;
+    setIsDragging(false);
+  };
+
+  return (
+    <div className="visual-carousel">
+      <div className="visual-carousel-toolbar">
+        <p>
+          {lang === "zh"
+            ? "拖动、滑动或使用方向键浏览"
+            : "Drag, swipe or use the arrow keys"}
+        </p>
+        <div className="visual-carousel-controls">
+          <span aria-live="polite">
+            {String(activeIndex + 1).padStart(2, "0")} /{" "}
+            {String(visualWorks.length).padStart(2, "0")}
+          </span>
+          <button
+            type="button"
+            onClick={() => goToSlide(activeIndex - 1)}
+            disabled={activeIndex === 0}
+            aria-controls="visual-track"
+            aria-label={lang === "zh" ? "上一件视觉作品" : "Previous visual"}
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            onClick={() => goToSlide(activeIndex + 1)}
+            disabled={activeIndex === visualWorks.length - 1}
+            aria-controls="visual-track"
+            aria-label={lang === "zh" ? "下一件视觉作品" : "Next visual"}
+          >
+            →
+          </button>
+        </div>
+      </div>
+
+      <div
+        ref={trackRef}
+        className={`visual-track${isDragging ? " is-dragging" : ""}`}
+        id="visual-track"
+        role="region"
+        aria-label={
+          lang === "zh" ? "视觉作品横向幻灯" : "Visual collection carousel"
+        }
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={stopDragging}
+        onPointerCancel={stopDragging}
+      >
+        {visualWorks.map((work, index) => (
+          <figure
+            className={`visual-slide ${
+              work.ratio < 1 ? "is-portrait" : "is-landscape"
+            }`}
+            data-visual-slide
+            key={work.src}
+            role="group"
+            aria-roledescription={lang === "zh" ? "幻灯片" : "slide"}
+            aria-label={`${index + 1} / ${visualWorks.length}`}
+            style={
+              {
+                "--visual-ratio": work.ratio,
+              } as CSSProperties
+            }
+          >
+            <div className="visual-media">
+              {work.kind === "video" ? (
+                <video
+                  muted
+                  loop
+                  playsInline
+                  autoPlay={!prefersReducedMotion}
+                  controls={prefersReducedMotion}
+                  preload="metadata"
+                  aria-label={work.alt}
+                >
+                  <source src={work.src} type="video/quicktime" />
+                </video>
+              ) : (
+                <img src={work.src} alt={work.alt} draggable={false} />
+              )}
+              <span className="visual-media-type">
+                {work.kind === "video"
+                  ? lang === "zh"
+                    ? "动态影像"
+                    : "Moving image"
+                  : lang === "zh"
+                    ? "静态影像"
+                    : "Still image"}
+              </span>
+            </div>
+            <figcaption>
+              <span>{lang === "zh" ? "视觉实验" : "Visual study"}</span>
+              <span>
+                {String(index + 1).padStart(2, "0")} /{" "}
+                {String(visualWorks.length).padStart(2, "0")}
+              </span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
@@ -362,17 +687,7 @@ export default function Home() {
               : "A snapshot of visual experiments using AI generative tools and cinematic workflows."}
           </p>
         </div>
-        <div className="visual-grid">
-          {visualWorks.map((work) => (
-            <figure key={work.number}>
-              <img src={work.src} alt={`Visual study ${work.number}`} />
-              <figcaption>
-                <span>Visual Study</span>
-                <span>{work.number} / 03</span>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <VisualCarousel lang={lang} />
       </section>
 
       <section className="video-section work-section" id="video">
