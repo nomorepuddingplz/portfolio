@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { portfolioProjects } from "./projects/project-data";
 
 type Language = "zh" | "en";
 
@@ -354,7 +355,7 @@ export default function Home() {
             <span>02</span>
             <p>Visual Collection</p>
           </div>
-          <h2>Visual<br />Collection</h2>
+          <h2>Visual Collection</h2>
           <p>
             {lang === "zh"
               ? "使用 AI 生成工具与电影化工作流完成的视觉实验速览。"
@@ -425,67 +426,34 @@ export default function Home() {
           </p>
         </div>
 
-        <article className="featured-project">
-          <div className="project-copy">
-            <div className="project-meta">
-              <span>01</span>
-              <span>Social Media · 2025</span>
-            </div>
-            <h3>
-              CHAGEE China
-              <br />
-              <span className="project-chinese-name">霸王茶姬</span>
-            </h3>
-            <p>
-              {lang === "zh"
-                ? "负责品牌小红书日常内容，从选题、脚本、拍摄、剪辑到发布；参与“夏日第一杯”、孙燕姿全球代言官宣、宠物季与新品发布等重点活动。"
-                : "Owned day-to-day Xiaohongshu content from scripting and filming through editing and publishing, while supporting major seasonal, ambassador and product-launch campaigns."}
-            </p>
+        <div className="project-overview-list">
+          {portfolioProjects.map((project) => (
             <a
-              href="https://ziyoutang0201.wixsite.com/christinatangworks/chagee-china"
-              target="_blank"
-              rel="noreferrer"
+              className={`project-overview-card project-tone-${project.tone}`}
+              href={`/projects/${project.slug}`}
+              key={project.slug}
+              aria-label={`${lang === "zh" ? "查看" : "View"} ${project.title}`}
             >
-              {lang === "zh" ? "查看项目" : "View project"} <span>↗</span>
+              <span className="project-card-glow" aria-hidden="true" />
+              <span className="project-card-layer layer-one" aria-hidden="true" />
+              <span className="project-card-layer layer-two" aria-hidden="true" />
+              <span className="project-card-layer layer-three" aria-hidden="true" />
+              <span className="project-card-number">{project.number}</span>
+              <div className="project-card-title">
+                <p>
+                  {project.category[lang]} · {project.period}
+                </p>
+                <h3>
+                  {project.title}
+                  {project.titleZh && <small>{project.titleZh}</small>}
+                </h3>
+              </div>
+              <p className="project-card-summary">{project.overview[lang]}</p>
+              <span className="project-card-arrow" aria-hidden="true">
+                ↗
+              </span>
             </a>
-          </div>
-          <div className="chagee-collage" aria-label="CHAGEE social media campaign">
-            <img src="/works/chagee-01.avif" alt="CHAGEE campaign visual" />
-            <img src="/works/chagee-02.avif" alt="CHAGEE campaign visual" />
-            <img src="/works/chagee-03.avif" alt="CHAGEE campaign visual" />
-            <img src="/works/chagee-04.avif" alt="CHAGEE campaign visual" />
-          </div>
-        </article>
-
-        <div className="project-pair">
-          <article className="project-tile project-ai">
-            <span>02 / AI CONTENT</span>
-            <div className="project-orbit" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </div>
-            <div>
-              <h3>Orpheus<br />Content Lab</h3>
-              <p>
-                {lang === "zh"
-                  ? "20+ 条 AI 短视频与多赛道社交内容策略。"
-                  : "20+ AI shorts and a multi-genre social content system."}
-              </p>
-            </div>
-          </article>
-          <article className="project-tile project-agency">
-            <span>03 / BRAND CAMPAIGNS</span>
-            <img src="/works/visual-02.avif" alt="" aria-hidden="true" />
-            <div>
-              <h3>Connelly<br />Partners</h3>
-              <p>
-                {lang === "zh"
-                  ? "BlueBike、Save the Harbor 与 Spindrift 品牌广告。"
-                  : "Campaign work for BlueBike, Save the Harbor and Spindrift."}
-              </p>
-            </div>
-          </article>
+          ))}
         </div>
       </section>
 
