@@ -143,12 +143,6 @@ const visualWorks: VisualWork[] = [
     ratio: 1344 / 768,
   },
   {
-    kind: "video",
-    src: "/works/visual-collection/screen-recording-02.mov",
-    alt: "AI generative visual workflow screen recording two",
-    ratio: 16 / 9,
-  },
-  {
     kind: "image",
     src: "/works/visual-collection/painting-kingfisher.avif",
     alt: "Overhead view of a child painting a kingfisher",
@@ -183,12 +177,6 @@ const visualWorks: VisualWork[] = [
     src: "/works/visual-02.avif",
     alt: "Cinematic visual study from Christina Tang's collection",
     ratio: 490 / 280,
-  },
-  {
-    kind: "image",
-    src: "/works/visual-03.avif",
-    alt: "Generative image study from Christina Tang's collection",
-    ratio: 499 / 280,
   },
 ];
 
