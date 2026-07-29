@@ -446,6 +446,12 @@ img {
   color: #55594f;
 }
 
+.compact-card > div > p:not(.leadership-org) {
+  margin-top: 1rem;
+  font-size: 0.86rem;
+  line-height: 1.75;
+}
+
 .compact-card .leadership-role {
   font-size: clamp(1.5rem, 2.2vw, 2.15rem);
   line-height: 1.05;
@@ -453,11 +459,12 @@ img {
 
 .compact-card .leadership-org {
   margin-top: 0.7rem;
-  color: var(--muted);
-  font-family: "Courier New", monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.045em;
-  text-transform: uppercase;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+  font-size: clamp(1.05rem, 1.65vw, 1.45rem);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
 
 .section-heading {
@@ -490,37 +497,55 @@ img {
 }
 
 .visual-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr 1fr;
-  gap: 1rem;
-  align-items: start;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.6vw, 1.5rem);
+  min-height: clamp(22rem, 45vw, 43rem);
+  padding: 3rem 0;
+  cursor: crosshair;
 }
 
 .visual-grid figure {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 0;
   margin: 0;
-}
-
-.visual-grid figure:nth-child(2) {
-  margin-top: 7rem;
-}
-
-.visual-grid figure:nth-child(3) {
-  margin-top: 2.5rem;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transform-origin: center;
+  transition:
+    flex-grow 520ms cubic-bezier(0.2, 0.72, 0.2, 1),
+    opacity 320ms ease,
+    transform 520ms cubic-bezier(0.2, 0.72, 0.2, 1);
 }
 
 .visual-grid img {
   width: 100%;
-  aspect-ratio: 0.84;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   filter: saturate(0.72);
   transition:
-    filter 350ms ease,
-    transform 350ms ease;
+    filter 420ms ease,
+    box-shadow 420ms ease;
+}
+
+.visual-grid:hover figure {
+  flex-grow: 0.82;
+  opacity: 0.62;
+  transform: translateY(0.8rem) scale(0.985);
+}
+
+.visual-grid figure:hover {
+  z-index: 3;
+  flex-grow: 1.5;
+  opacity: 1;
+  transform: translateY(-1.35rem) scale(1.015);
 }
 
 .visual-grid figure:hover img {
   filter: saturate(1);
-  transform: translateY(-0.4rem);
+  box-shadow: 0 1.8rem 4rem rgba(56, 52, 45, 0.14);
 }
 
 .visual-grid figcaption {
@@ -710,7 +735,7 @@ img {
 
 .project-pair {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin-top: 1rem;
 }
@@ -996,15 +1021,34 @@ img {
     font-size: clamp(3.8rem, 18vw, 5.5rem);
   }
 
-  .visual-grid,
   .video-grid,
   .project-pair {
     grid-template-columns: 1fr;
   }
 
-  .visual-grid figure:nth-child(2),
-  .visual-grid figure:nth-child(3) {
-    margin-top: 1rem;
+  .visual-grid {
+    min-height: 0;
+    align-items: center;
+    gap: 0.8rem;
+    margin-right: calc(var(--page) * -1);
+    padding: 2rem var(--page) 2rem 0;
+    overflow-x: auto;
+    cursor: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  .visual-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .visual-grid figure,
+  .visual-grid:hover figure,
+  .visual-grid figure:hover {
+    flex: 0 0 78vw;
+    opacity: 1;
+    transform: none;
+    scroll-snap-align: start;
   }
 
   .video-card + .video-card {

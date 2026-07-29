@@ -15,14 +15,14 @@ const experience = [
     },
     points: {
       zh: [
-        "使用 Veo 3、Runway、Kling 2.1 等生成式 AI 工具制作 20+ 条品牌短视频。",
-        "协助制定喜剧、旅行与都市传说等内容赛道策略，负责排期、流程分工与执行清单。",
-        "参与梳理长期发展战略、可持续商业模式与内容规划。",
+        "使用 Veo 3、Runway、Kling 2.1 等生成式 AI 工具制作 20+ 条 AI 短视频，支持品牌 TikTok 内容传播。",
+        "协助制定喜剧、旅行、都市传说等多赛道社交媒体内容策略，负责工作流程分工、项目排期与执行清单，确保内容制作顺利推进。",
+        "参与梳理公司长期发展战略与可持续商业模式，协助完善业务框架及后续内容规划。",
       ],
       en: [
-        "Produced 20+ AI short-form videos with Veo 3, Runway and Kling 2.1 for TikTok brand content.",
-        "Helped shape content strategies across comedy, travel and urban legends, coordinating schedules and production workflows.",
-        "Contributed to long-term business strategy, sustainable models and content planning.",
+        "Created 20+ AI short-form videos with Veo 3, Runway and Kling 2.1, supporting the brand’s TikTok content and distribution.",
+        "Helped develop social content strategies across comedy, travel and urban legends; assigned production workflows, maintained project schedules and prepared execution checklists.",
+        "Contributed to the company’s long-term strategy and sustainable business model, helping refine its business framework and content roadmap.",
       ],
     },
   },
@@ -34,13 +34,13 @@ const experience = [
     points: {
       zh: [
         "负责品牌官方小红书账号的日常图文选题与拍摄。",
-        "完成 10+ 条“姬姐日记”内容，从选题、脚本、拍摄、剪辑到发布全流程推进。",
-        "分析小红书与抖音数据，为内容优化与运营策略提供支持。",
+        "完成 10+ 条“姬姐日记”内容制作，负责选题策划、脚本撰写、拍摄、视频剪辑及发布，推进从创意到上线的完整流程。",
+        "整理并分析“姬姐日记”和“姬查队长”两个员工 IP 账号的小红书及抖音数据，结合观众画像、完播率等指标，为内容优化与后续策略提供支持。",
       ],
       en: [
-        "Owned daily editorial planning and production for CHAGEE’s official Xiaohongshu account.",
-        "Delivered 10+ episodes of Sister Ji’s Diary from concept and scripting through filming, editing and publishing.",
-        "Analyzed Xiaohongshu and Douyin performance to inform content optimization and channel strategy.",
+        "Managed daily editorial planning, image-led content development and photography for CHAGEE China’s official Xiaohongshu account.",
+        "Produced 10+ Sister Ji’s Diary posts, handling concept development, scripting, filming, video editing and publishing from idea through launch.",
+        "Organized and analyzed Xiaohongshu and Douyin data for the employee-IP accounts Sister Ji’s Diary and Captain Ji, using audience profiles and completion rates to guide content optimization and future strategy.",
       ],
     },
   },
@@ -51,14 +51,16 @@ const experience = [
     role: { zh: "内容策划", en: "Content Strategist" },
     points: {
       zh: [
-        "主导 BlueBike、Save the Harbor 与 Spindrift 三个品牌视频广告项目。",
-        "覆盖用户研究、传播策略、品牌宣言、广告脚本、提案与拍摄执行。",
-        "为 Spindrift 提出“美食评论家”创意定位，并担任广告导演。",
+        "主导 BlueBike、Save the Harbor 与 Spindrift 三个品牌视频广告项目，覆盖用户调研、策略制定与创意制作全流程。",
+        "为 BlueBike 分析目标客群并策划“比火车更可靠”的传播卖点，参与制片执行与定格动画制作。",
+        "为 Save the Harbor 撰写品牌宣言与广告脚本，制作 brief、参与提案并协同优化品牌价值主张。",
+        "为 Spindrift 提出“美食评论家”创意定位，担任广告导演并主导社交媒体宣传物料设计。",
       ],
       en: [
-        "Led three branded video campaigns for BlueBike, Save the Harbor and Spindrift.",
-        "Worked across audience research, communication strategy, brand manifesto, scripting, pitching and production.",
-        "Created the Food Critic concept for Spindrift and directed the final commercial.",
+        "Led three branded video campaigns for BlueBike, Save the Harbor and Spindrift, working from audience research and strategy through creative production.",
+        "For BlueBike, analyzed target audiences and developed a more reliable than the train message, supporting production and stop-motion execution.",
+        "For Save the Harbor, wrote the brand manifesto and commercial script, prepared the brief, joined the pitch and helped refine the value proposition.",
+        "For Spindrift, created the Food Critic concept, directed the commercial and led the design of social campaign assets.",
       ],
     },
   },
@@ -72,14 +74,14 @@ const experience = [
     },
     points: {
       zh: [
-        "策划男装品牌 Coofandy 跨境宣传视频 20+ 条，打造轻剧情内容系列。",
-        "为 Hotli.Live 建立选题库并依据数据优化内容，视频曝光增长约 30%。",
-        "参与 60+ 场 TikTok 直播运营，优化话术与反馈机制，月销售额约 18K 美元。",
+        "策划男装品牌 Coofandy 跨境宣传视频 20+ 条，围绕人物设定打造“型男日常”“街头挑战”等轻剧情系列并发布至 TikTok。",
+        "为 Hotli.Live 搭建选题库、剪辑直播切片，并根据后台数据优化内容方向；视频曝光量增长约 30%，单条视频平均产生 150+ 美元收益。",
+        "安排直播服化道、灯光与现场布景，担任 60+ 场 TikTok 直播运营中控及后台，优化达人话术与反馈机制；平均销售额提升 3.5 倍，月销售额约 18K 美元。",
       ],
       en: [
-        "Created 20+ cross-border campaign videos for menswear brand Coofandy, building a light narrative content series.",
-        "Built an editorial bank for Hotli.Live and used performance data to lift reach by roughly 30%.",
-        "Supported 60+ TikTok livestreams, refining creator scripts and feedback loops to reach about $18K in monthly sales.",
+        "Created 20+ cross-border campaign videos for menswear brand Coofandy, building character-led TikTok series such as Everyday Style and Street Challenge.",
+        "Built a content bank for Hotli.Live, edited livestream clips and refined content using backend performance data; video reach increased by about 30%, with each video generating an average of $150+.",
+        "Coordinated wardrobe, props, lighting and live-set styling while serving as the control-room and backend operator for 60+ TikTok livestreams; refined creator scripts and feedback loops, increasing average sales 3.5x and reaching about $18K in monthly sales.",
       ],
     },
   },
@@ -93,14 +95,14 @@ const experience = [
     },
     points: {
       zh: [
-        "参与美团官方账号 8 场直播，撰写 100+ 产品宣传脚本。",
-        "对接明星嘉宾互动脚本，单场直播最高观看人数达 400 万。",
-        "协助美术场景搭建、流程调度与素材整理。",
+        "参与美团官方“老板请吃饭”“爆团团”账号 8 场直播，撰写 100+ 产品宣传脚本，形成“剧情 + 商品”的融合式口播表达。",
+        "对接明星嘉宾的音乐、问答与游戏互动脚本，单场直播观看人数超过 100 万，最高达 400 万。",
+        "协助完成直播美术场景与灯光布置、流程调度及素材整理，参与直播节目的现场执行。",
       ],
       en: [
-        "Worked on eight official Meituan livestreams and wrote 100+ product promotion scripts.",
-        "Developed interactive scripts for celebrity guests, with peak live audiences reaching four million.",
-        "Supported set design, run-of-show coordination and media organization.",
+        "Worked on eight livestreams for Meituan’s official Boss Treats and Bao Tuan Tuan accounts, writing 100+ product scripts that combined narrative beats with product messaging.",
+        "Developed music, Q&A and game-based interaction scripts for celebrity guests; individual livestreams exceeded one million viewers and peaked at four million.",
+        "Supported art direction, lighting and set construction, run-of-show coordination and media organization during live production.",
       ],
     },
   },
@@ -158,6 +160,10 @@ export default function Home() {
         ? "我的经历横跨品牌方、创意代理公司与片场制作。现在，我正在探索人类感知与生成式创造力相遇的混合影像工作流。"
         : "My background spans client-side marketing, creative agencies and hands-on film production. Today, I explore hybrid image-making workflows where human sensitivity meets generative creativity.",
   };
+  const contactEmail =
+    lang === "zh"
+      ? "christinatang2022@163.com"
+      : "ziyoutang0201@Gmail.com";
 
   return (
     <main className="portfolio-site">
@@ -271,7 +277,10 @@ export default function Home() {
               <div className="resume-card education-card">
                 <span className="resume-date">2022 — 2026</span>
                 <div>
-                  <h3>Emerson College</h3>
+                  <h3>
+                    Emerson College
+                    <small> · {lang === "zh" ? "波士顿" : "Boston"}</small>
+                  </h3>
                   <p>
                     {lang === "zh"
                       ? "媒体艺术制作 · 文学学士（BA）"
@@ -329,8 +338,8 @@ export default function Home() {
                   </p>
                   <p>
                     {lang === "zh"
-                      ? "统筹 20+ 场校园活动与年度预算；担任 2024 波士顿学联春晚统筹，协调演员、灯光、美术与视频团队。"
-                      : "Led 20+ campus events and the annual budget; coordinated performers, lighting, art and video teams for the 2024 Boston Chinese New Year Gala."}
+                      ? "统筹策划 20+ 场大型校园活动，单场平均参与人数超过 100 人、最高达 300+；担任 2024 波士顿学联春晚统筹，协调演员、灯光、美术与视频团队。管理年度预算与开支，制作年度财务报表，并负责场地预约、舞台搭建与物料采买。"
+                      : "Led 20+ large campus events, averaging more than 100 attendees and reaching 300+ at the largest event; coordinated performers, lighting, art and video teams for the 2024 Boston Chinese New Year Gala. Managed the annual budget and expenses, prepared the financial report, and oversaw venue booking, stage setup and material purchasing."}
                   </p>
                 </div>
               </div>
@@ -348,8 +357,8 @@ export default function Home() {
           <h2>Visual<br />Collection</h2>
           <p>
             {lang === "zh"
-              ? "使用生成式 AI 与电影化工作流进行的视觉实验。"
-              : "Visual experiments shaped through generative tools and cinematic workflows."}
+              ? "使用 AI 生成工具与电影化工作流完成的视觉实验速览。"
+              : "A snapshot of visual experiments using AI generative tools and cinematic workflows."}
           </p>
         </div>
         <div className="visual-grid">
@@ -406,13 +415,13 @@ export default function Home() {
         <div className="section-heading">
           <div className="section-label">
             <span>04</span>
-            <p>{lang === "zh" ? "项目作品" : "Project Works"}</p>
+            <p>{lang === "zh" ? "品牌项目" : "Branding Project"}</p>
           </div>
-          <h2>{lang === "zh" ? "项目作品" : "Selected Projects"}</h2>
+          <h2>{lang === "zh" ? "品牌项目" : "Branding Project"}</h2>
           <p>
             {lang === "zh"
-              ? "从策略洞察、内容设计到拍摄与发布的完整项目实践。"
-              : "Selected projects spanning strategic insight, content design, production and launch."}
+              ? "以策略洞察与平台创意为核心的品牌和社交媒体项目。"
+              : "An overview of branding and social media campaigns created through strategic insight and platform-driven creativity."}
           </p>
         </div>
 
@@ -489,8 +498,8 @@ export default function Home() {
           {lang === "zh" ? "让我们一起创造一些" : "Let’s create something"}
         </p>
         <h2>{lang === "zh" ? "值得被记住的作品。" : "worth remembering."}</h2>
-        <a href="mailto:christinatang2022@163.com" className="email-link">
-          christinatang2022@163.com <span>↗</span>
+        <a href={`mailto:${contactEmail}`} className="email-link">
+          {contactEmail} <span>↗</span>
         </a>
         <footer>
           <span>Christina Tang © 2026</span>
