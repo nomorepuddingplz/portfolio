@@ -535,12 +535,10 @@ img {
 .visual-carousel-controls {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
 }
 
 .visual-carousel-controls > span {
   min-width: 4.6rem;
-  margin-right: 0.45rem;
   color: var(--muted);
   font-family: "Courier New", monospace;
   font-size: 0.62rem;
@@ -548,35 +546,8 @@ img {
   text-align: right;
 }
 
-.visual-carousel-controls button {
-  width: 2.85rem;
-  height: 2.85rem;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: rgba(250, 248, 243, 0.32);
-  font-size: 1rem;
-  cursor: pointer;
-  transition:
-    color 220ms ease,
-    background 220ms ease,
-    border-color 220ms ease,
-    transform 220ms ease;
-}
-
-.visual-carousel-controls button:hover:not(:disabled),
-.visual-carousel-controls button:focus-visible {
-  border-color: var(--ink);
-  color: var(--paper);
-  background: var(--ink);
-  transform: translateY(-0.15rem);
-}
-
-.visual-carousel-controls button:disabled {
-  opacity: 0.24;
-  cursor: default;
+.visual-carousel-stage {
+  position: relative;
 }
 
 .visual-track {
@@ -591,9 +562,8 @@ img {
   scroll-padding-inline: var(--page);
   scroll-snap-type: x proximity;
   scrollbar-width: none;
-  cursor: grab;
+  cursor: default;
   touch-action: pan-x pan-y;
-  user-select: none;
 }
 
 .visual-track::-webkit-scrollbar {
@@ -605,9 +575,73 @@ img {
   outline-offset: -0.7rem;
 }
 
-.visual-track.is-dragging {
-  scroll-snap-type: none;
-  cursor: grabbing;
+.visual-edge-control {
+  position: absolute;
+  z-index: 12;
+  top: 0;
+  bottom: 0;
+  width: clamp(4.75rem, 9vw, 9rem);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    opacity 260ms ease,
+    background 260ms ease;
+}
+
+.visual-edge-control.previous {
+  left: 0;
+  justify-content: flex-start;
+  padding-left: max(0.8rem, calc(var(--page) * 0.48));
+  cursor: w-resize;
+}
+
+.visual-edge-control.next {
+  right: 0;
+  justify-content: flex-end;
+  padding-right: max(0.8rem, calc(var(--page) * 0.48));
+  cursor: e-resize;
+}
+
+.visual-edge-control.previous:hover,
+.visual-edge-control.previous:focus-visible {
+  opacity: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(232, 227, 220, 0.88),
+    rgba(232, 227, 220, 0)
+  );
+}
+
+.visual-edge-control.next:hover,
+.visual-edge-control.next:focus-visible {
+  opacity: 1;
+  background: linear-gradient(
+    270deg,
+    rgba(232, 227, 220, 0.88),
+    rgba(232, 227, 220, 0)
+  );
+}
+
+.visual-edge-control:disabled {
+  pointer-events: none;
+}
+
+.visual-edge-control span {
+  width: 3.25rem;
+  height: 3.25rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  color: var(--paper);
+  background: var(--ink);
+  font-size: 1.05rem;
+  box-shadow: 0 0.8rem 2rem rgba(56, 52, 45, 0.18);
 }
 
 .visual-slide {
@@ -647,23 +681,9 @@ img {
     opacity 420ms ease;
 }
 
-.visual-media-type {
-  position: absolute;
-  top: 0.8rem;
-  left: 0.8rem;
-  padding: 0.38rem 0.52rem;
-  background: rgba(243, 240, 234, 0.76);
-  font-family: "Courier New", monospace;
-  font-size: 0.48rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  backdrop-filter: blur(10px);
-}
-
 .visual-slide figcaption {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: flex-end;
   padding-top: 0.75rem;
   border-top: 1px solid var(--line);
   font-family: "Courier New", monospace;
@@ -677,26 +697,32 @@ img {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .visual-track:not(.is-dragging):hover .visual-slide {
+  .visual-track:hover .visual-slide {
     opacity: 0.42;
     transform: translateY(0.65rem) scale(0.985);
   }
 
-  .visual-track:not(.is-dragging) .visual-slide:hover {
+  .visual-track .visual-slide:hover {
     z-index: 5;
     opacity: 1;
     transform: translateY(-1.1rem);
   }
 
-  .visual-track:not(.is-dragging) .visual-slide:hover .visual-media {
+  .visual-track .visual-slide:hover .visual-media {
     height: clamp(26rem, 41vw, 40rem);
     box-shadow: 0 2.2rem 5rem rgba(56, 52, 45, 0.2);
   }
 
-  .visual-track:not(.is-dragging)
+  .visual-track
     .visual-slide:hover
     :is(.visual-media img, .visual-media video) {
     filter: saturate(1);
+  }
+}
+
+@media (hover: none) {
+  .visual-edge-control:not(:disabled) {
+    opacity: 0.72;
   }
 }
 
@@ -1548,9 +1574,21 @@ img {
     display: none;
   }
 
-  .visual-carousel-controls button {
-    width: 2.65rem;
-    height: 2.65rem;
+  .visual-edge-control {
+    width: 3.75rem;
+  }
+
+  .visual-edge-control.previous {
+    padding-left: 0.45rem;
+  }
+
+  .visual-edge-control.next {
+    padding-right: 0.45rem;
+  }
+
+  .visual-edge-control span {
+    width: 2.6rem;
+    height: 2.6rem;
   }
 
   .visual-track {

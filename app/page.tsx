@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
+import type { CSSProperties, KeyboardEvent } from "react";
 import { portfolioProjects } from "./projects/project-data";
 
 type Language = "zh" | "en";
@@ -215,13 +215,7 @@ const videoWorks = [
 
 function VisualCarousel({ lang }: { lang: Language }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef({
-    pointerId: -1,
-    startX: 0,
-    scrollLeft: 0,
-  });
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const getSlides = () =>
@@ -327,135 +321,98 @@ function VisualCarousel({ lang }: { lang: Language }) {
     }
   };
 
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse" || event.button !== 0) return;
-    const track = event.currentTarget;
-    dragRef.current = {
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      scrollLeft: track.scrollLeft,
-    };
-    track.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-  };
-
-  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (dragRef.current.pointerId !== event.pointerId) return;
-    event.preventDefault();
-    event.currentTarget.scrollLeft =
-      dragRef.current.scrollLeft -
-      (event.clientX - dragRef.current.startX);
-  };
-
-  const stopDragging = (event: PointerEvent<HTMLDivElement>) => {
-    if (dragRef.current.pointerId !== event.pointerId) return;
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-    dragRef.current.pointerId = -1;
-    setIsDragging(false);
-  };
-
   return (
     <div className="visual-carousel">
       <div className="visual-carousel-toolbar">
         <p>
           {lang === "zh"
-            ? "拖动、滑动或使用方向键浏览"
-            : "Drag, swipe or use the arrow keys"}
+            ? "将鼠标移到左右边缘，点击切换"
+            : "Move to either edge and click to browse"}
         </p>
         <div className="visual-carousel-controls">
           <span aria-live="polite">
             {String(activeIndex + 1).padStart(2, "0")} /{" "}
             {String(visualWorks.length).padStart(2, "0")}
           </span>
-          <button
-            type="button"
-            onClick={() => goToSlide(activeIndex - 1)}
-            disabled={activeIndex === 0}
-            aria-controls="visual-track"
-            aria-label={lang === "zh" ? "上一件视觉作品" : "Previous visual"}
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            onClick={() => goToSlide(activeIndex + 1)}
-            disabled={activeIndex === visualWorks.length - 1}
-            aria-controls="visual-track"
-            aria-label={lang === "zh" ? "下一件视觉作品" : "Next visual"}
-          >
-            →
-          </button>
         </div>
       </div>
 
-      <div
-        ref={trackRef}
-        className={`visual-track${isDragging ? " is-dragging" : ""}`}
-        id="visual-track"
-        role="region"
-        aria-label={
-          lang === "zh" ? "视觉作品横向幻灯" : "Visual collection carousel"
-        }
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={stopDragging}
-        onPointerCancel={stopDragging}
-      >
-        {visualWorks.map((work, index) => (
-          <figure
-            className={`visual-slide ${
-              work.ratio < 1 ? "is-portrait" : "is-landscape"
-            }`}
-            data-visual-slide
-            key={work.src}
-            role="group"
-            aria-roledescription={lang === "zh" ? "幻灯片" : "slide"}
-            aria-label={`${index + 1} / ${visualWorks.length}`}
-            style={
-              {
-                "--visual-ratio": work.ratio,
-              } as CSSProperties
-            }
-          >
-            <div className="visual-media">
-              {work.kind === "video" ? (
-                <video
-                  muted
-                  loop
-                  playsInline
-                  autoPlay={!prefersReducedMotion}
-                  controls={prefersReducedMotion}
-                  preload="metadata"
-                  aria-label={work.alt}
-                >
-                  <source src={work.src} type="video/quicktime" />
-                </video>
-              ) : (
-                <img src={work.src} alt={work.alt} draggable={false} />
-              )}
-              <span className="visual-media-type">
-                {work.kind === "video"
-                  ? lang === "zh"
-                    ? "动态影像"
-                    : "Moving image"
-                  : lang === "zh"
-                    ? "静态影像"
-                    : "Still image"}
-              </span>
-            </div>
-            <figcaption>
-              <span>{lang === "zh" ? "视觉实验" : "Visual study"}</span>
-              <span>
-                {String(index + 1).padStart(2, "0")} /{" "}
-                {String(visualWorks.length).padStart(2, "0")}
-              </span>
-            </figcaption>
-          </figure>
-        ))}
+      <div className="visual-carousel-stage">
+        <button
+          className="visual-edge-control previous"
+          type="button"
+          onClick={() => goToSlide(activeIndex - 1)}
+          disabled={activeIndex === 0}
+          aria-controls="visual-track"
+          aria-label={lang === "zh" ? "上一件视觉作品" : "Previous visual"}
+        >
+          <span aria-hidden="true">←</span>
+        </button>
+
+        <div
+          ref={trackRef}
+          className="visual-track"
+          id="visual-track"
+          role="region"
+          aria-label={
+            lang === "zh" ? "视觉作品横向幻灯" : "Visual collection carousel"
+          }
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+        >
+          {visualWorks.map((work, index) => (
+            <figure
+              className={`visual-slide ${
+                work.ratio < 1 ? "is-portrait" : "is-landscape"
+              }`}
+              data-visual-slide
+              key={work.src}
+              role="group"
+              aria-roledescription={lang === "zh" ? "幻灯片" : "slide"}
+              aria-label={`${index + 1} / ${visualWorks.length}`}
+              style={
+                {
+                  "--visual-ratio": work.ratio,
+                } as CSSProperties
+              }
+            >
+              <div className="visual-media">
+                {work.kind === "video" ? (
+                  <video
+                    muted
+                    loop
+                    playsInline
+                    autoPlay={!prefersReducedMotion}
+                    controls={prefersReducedMotion}
+                    preload="metadata"
+                    aria-label={work.alt}
+                  >
+                    <source src={work.src} type="video/quicktime" />
+                  </video>
+                ) : (
+                  <img src={work.src} alt={work.alt} draggable={false} />
+                )}
+              </div>
+              <figcaption>
+                <span>
+                  {String(index + 1).padStart(2, "0")} /{" "}
+                  {String(visualWorks.length).padStart(2, "0")}
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <button
+          className="visual-edge-control next"
+          type="button"
+          onClick={() => goToSlide(activeIndex + 1)}
+          disabled={activeIndex === visualWorks.length - 1}
+          aria-controls="visual-track"
+          aria-label={lang === "zh" ? "下一件视觉作品" : "Next visual"}
+        >
+          <span aria-hidden="true">→</span>
+        </button>
       </div>
     </div>
   );
