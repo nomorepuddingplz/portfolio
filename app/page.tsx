@@ -9,7 +9,10 @@ const experience = [
     period: "2025.09 — 2025.12",
     company: "Orpheus Streaming Inc.",
     location: { zh: "洛杉矶", en: "Los Angeles" },
-    role: { zh: "社交媒体 AI 运营", en: "Social Media AI Operations" },
+    role: {
+      zh: "社交媒体 AI 内容创作",
+      en: "Social Media AI Content Creator",
+    },
     points: {
       zh: [
         "使用 Veo 3、Runway、Kling 2.1 等生成式 AI 工具制作 20+ 条品牌短视频。",
@@ -25,7 +28,7 @@ const experience = [
   },
   {
     period: "2025.06 — 2025.08",
-    company: "CHAGEE",
+    company: "CHAGEE China / 霸王茶姬",
     location: { zh: "上海", en: "Shanghai" },
     role: { zh: "社交媒体内容运营", en: "Social Media Content Operations" },
     points: {
@@ -60,7 +63,7 @@ const experience = [
     },
   },
   {
-    period: "2023.11 — 2024.06",
+    period: "2024.02 — 2024.06",
     company: "SocialV Global",
     location: { zh: "波士顿", en: "Boston" },
     role: {
@@ -143,8 +146,8 @@ export default function Home() {
     },
     role:
       lang === "zh"
-        ? "内容策划 · 多媒体创作者"
-        : "Content Strategist · Multimedia Creator",
+        ? "内容策划 · 多媒体创作者 · AI 生成叙事"
+        : "Content Strategist · Multimedia Creator · AI-generative Storytelling",
     aboutTitle: lang === "zh" ? "关于我" : "About me",
     about:
       lang === "zh"
@@ -203,7 +206,11 @@ export default function Home() {
               </>
             ) : (
               <>
-                <p>Selected works &amp; moving images</p>
+                <p>
+                  Between Narrative &amp;
+                  <br />
+                  New Vision
+                </p>
                 <strong>Christina Tang</strong>
               </>
             )}
@@ -267,8 +274,8 @@ export default function Home() {
                   <h3>Emerson College</h3>
                   <p>
                     {lang === "zh"
-                      ? "电影电视制作 · 学士学位"
-                      : "BFA, Media Arts Production"}
+                      ? "媒体艺术制作 · 文学学士（BA）"
+                      : "BA, Media Arts Production"}
                   </p>
                   <small>
                     {lang === "zh"
@@ -312,11 +319,14 @@ export default function Home() {
               <div className="resume-card compact-card">
                 <span className="resume-date">2024.05 — 2025.05</span>
                 <div>
-                  <h3>
-                    {lang === "zh"
-                      ? "Emerson 中国学生会 · 行政部部长"
-                      : "Emerson Chinese Students Association · Head of Administration"}
+                  <h3 className="leadership-role">
+                    {lang === "zh" ? "行政部部长" : "Head of Administration"}
                   </h3>
+                  <p className="leadership-org">
+                    {lang === "zh"
+                      ? "Emerson 中国学生会"
+                      : "Emerson Chinese Students Association"}
+                  </p>
                   <p>
                     {lang === "zh"
                       ? "统筹 20+ 场校园活动与年度预算；担任 2024 波士顿学联春晚统筹，协调演员、灯光、美术与视频团队。"
@@ -412,7 +422,11 @@ export default function Home() {
               <span>01</span>
               <span>Social Media · 2025</span>
             </div>
-            <h3>CHAGEE<br />China</h3>
+            <h3>
+              CHAGEE China
+              <br />
+              <span className="project-chinese-name">霸王茶姬</span>
+            </h3>
             <p>
               {lang === "zh"
                 ? "负责品牌小红书日常内容，从选题、脚本、拍摄、剪辑到发布；参与“夏日第一杯”、孙燕姿全球代言官宣、宠物季与新品发布等重点活动。"

@@ -138,6 +138,14 @@ img {
   text-transform: uppercase;
 }
 
+.hero-meta > span:first-child {
+  max-width: min(50rem, 70vw);
+  font-size: clamp(0.78rem, 1.15vw, 1.08rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.045em;
+}
+
 .hero-title {
   margin: auto 0;
 }
@@ -438,6 +446,20 @@ img {
   color: #55594f;
 }
 
+.compact-card .leadership-role {
+  font-size: clamp(1.5rem, 2.2vw, 2.15rem);
+  line-height: 1.05;
+}
+
+.compact-card .leadership-org {
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-family: "Courier New", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
 .section-heading {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -634,6 +656,12 @@ img {
   font-weight: 400;
   line-height: 0.82;
   letter-spacing: -0.06em;
+}
+
+.project-copy h3 .project-chinese-name {
+  font-family: "Songti SC", "STSong", Georgia, serif;
+  font-size: 0.48em;
+  letter-spacing: 0;
 }
 
 .project-copy > p {
@@ -906,6 +934,16 @@ img {
   .hero {
     min-height: 48rem;
     padding-top: 6.8rem;
+  }
+
+  .hero-meta {
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .hero-meta > span:first-child {
+    max-width: 72%;
+    font-size: 0.72rem;
   }
 
   .hero-title h1 {
