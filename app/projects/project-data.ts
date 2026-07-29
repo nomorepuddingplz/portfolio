@@ -42,8 +42,8 @@ export const portfolioProjects: PortfolioProject[] = [
       en: "Brand social content shaped from editorial planning and production through account-level performance analysis.",
     },
     intro: {
-      zh: "在 CHAGEE China 社交媒体部门参与品牌官方小红书内容，并支持“夏日第一杯”、孙燕姿全球代言官宣、宠物季和新品发布等品牌节点。",
-      en: "A social-media content role at CHAGEE China spanning the brand’s official Xiaohongshu presence and key moments including The First Cup of Summer, Stefanie Sun’s global ambassador announcement, Pet Season and product launches.",
+      zh: "在 CHAGEE China 社交媒体部门参与品牌官方小红书内容与运营，并负责剪辑“姬姐日记”和“姬查队长”两个员工 IP 账号的视频。",
+      en: "A social-media content role at CHAGEE China spanning the brand’s official Xiaohongshu presence and operations. The work also included editing videos for two employee-IP accounts, Sister Ji’s Diary and Captain Ji.",
     },
     responsibilities: {
       zh: [
