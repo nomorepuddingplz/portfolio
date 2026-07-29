@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent } from "react";
+import ShortVideoGallery from "./ShortVideoGallery";
 import { portfolioProjects } from "./projects/project-data";
+import { videoProjects } from "./videos/video-projects";
 
 type Language = "zh" | "en";
 
@@ -125,12 +127,6 @@ const visualWorks: VisualWork[] = [
     ratio: 1344 / 768,
   },
   {
-    kind: "video",
-    src: "/works/visual-collection/screen-recording-01.mov",
-    alt: "AI generative visual workflow screen recording one",
-    ratio: 16 / 9,
-  },
-  {
     kind: "image",
     src: "/works/visual-collection/forest-angel.avif",
     alt: "Watercolor angel child resting in a dark forest",
@@ -180,27 +176,6 @@ const visualWorks: VisualWork[] = [
   },
 ];
 
-const videoWorks = [
-  {
-    src: "/works/video-fly-out.avif",
-    title: "Fly Out",
-    href: "https://ziyoutang0201.wixsite.com/christinatangworks/fly-out",
-    type: "AI Film",
-  },
-  {
-    src: "/works/video-lift-me-up.avif",
-    title: "Lift Me Up",
-    href: "https://ziyoutang0201.wixsite.com/christinatangworks/lift-me-up",
-    type: "Animation",
-  },
-  {
-    src: "/works/video-otherrealm.avif",
-    title: "The Otherrealm",
-    href: "https://ziyoutang0201.wixsite.com/christinatangworks/the-otherrealm",
-    type: "Visual Story",
-  },
-];
-
 function VisualCarousel({ lang }: { lang: Language }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -217,7 +192,9 @@ function VisualCarousel({ lang }: { lang: Language }) {
     const slides = getSlides();
     if (!track || slides.length === 0) return;
 
-    const nextIndex = Math.max(0, Math.min(index, slides.length - 1));
+    const nextIndex =
+      ((index % slides.length) + slides.length) % slides.length;
+    const crossesBoundary = index < 0 || index >= slides.length;
     const target = slides[nextIndex];
     const left =
       target.offsetLeft - (track.clientWidth - target.offsetWidth) / 2;
@@ -227,7 +204,7 @@ function VisualCarousel({ lang }: { lang: Language }) {
 
     track.scrollTo({
       left,
-      behavior: reduceMotion ? "auto" : "smooth",
+      behavior: reduceMotion || crossesBoundary ? "auto" : "smooth",
     });
     setActiveIndex(nextIndex);
   };
@@ -314,8 +291,8 @@ function VisualCarousel({ lang }: { lang: Language }) {
       <div className="visual-carousel-toolbar">
         <p>
           {lang === "zh"
-            ? "将鼠标移到左右边缘，点击切换"
-            : "Move to either edge and click to browse"}
+            ? "点击左右边缘，循环浏览"
+            : "Click either edge to browse in a loop"}
         </p>
         <div className="visual-carousel-controls">
           <span aria-live="polite">
@@ -330,7 +307,6 @@ function VisualCarousel({ lang }: { lang: Language }) {
           className="visual-edge-control previous"
           type="button"
           onClick={() => goToSlide(activeIndex - 1)}
-          disabled={activeIndex === 0}
           aria-controls="visual-track"
           aria-label={lang === "zh" ? "上一件视觉作品" : "Previous visual"}
         >
@@ -395,7 +371,6 @@ function VisualCarousel({ lang }: { lang: Language }) {
           className="visual-edge-control next"
           type="button"
           onClick={() => goToSlide(activeIndex + 1)}
-          disabled={activeIndex === visualWorks.length - 1}
           aria-controls="visual-track"
           aria-label={lang === "zh" ? "下一件视觉作品" : "Next visual"}
         >
@@ -408,6 +383,16 @@ function VisualCarousel({ lang }: { lang: Language }) {
 
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
+
+  useEffect(() => {
+    const requestedLanguage = new URLSearchParams(window.location.search).get(
+      "lang",
+    );
+    if (requestedLanguage === "zh" || requestedLanguage === "en") {
+      const frame = requestAnimationFrame(() => setLang(requestedLanguage));
+      return () => cancelAnimationFrame(frame);
+    }
+  }, []);
 
   const copy = {
     nav: {
@@ -649,27 +634,28 @@ export default function Home() {
           </p>
         </div>
         <div className="video-grid">
-          {videoWorks.map((work, index) => (
+          {videoProjects.map((work, index) => (
             <a
               className="video-card"
-              href={work.href}
-              target="_blank"
-              rel="noreferrer"
+              href={`/videos/${work.slug}?lang=${lang}`}
               key={work.title}
             >
               <div className="video-image">
-                <img src={work.src} alt={`${work.title} film still`} />
+                <img src={work.poster} alt={`${work.title} film still`} />
                 <span className="play-button" aria-hidden="true">▶</span>
               </div>
               <div className="video-info">
                 <span>0{index + 1}</span>
                 <h3>{work.title}</h3>
-                <p>{work.type} · 2025</p>
-                <b aria-hidden="true">↗</b>
+                <p>
+                  {work.genre[lang]} · {work.date[lang]}
+                </p>
+                <b aria-hidden="true">→</b>
               </div>
             </a>
           ))}
         </div>
+        <ShortVideoGallery lang={lang} />
       </section>
 
       <section className="projects-section work-section" id="projects">
@@ -690,7 +676,7 @@ export default function Home() {
           {portfolioProjects.map((project) => (
             <a
               className={`project-overview-card project-tone-${project.tone}`}
-              href={`/projects/${project.slug}`}
+              href={`/projects/${project.slug}?lang=${lang}`}
               key={project.slug}
               aria-label={`${lang === "zh" ? "查看" : "View"} ${project.title}`}
             >
